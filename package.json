@@ -1,0 +1,25 @@
+{
+  "name": "studio-saber",
+  "version": "1.0.0",
+  "description": "Website for Studio Saber Photography",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cool-ascii-faces": "1.3.4",
+    "ejs": "2.5.6",
+    "express": "4.15.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medihebfaiza/studio-saber.git"
+  },
+  "keywords": [],
+  "author": "Mohamed Iheb Faiza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/medihebfaiza/studio-saber/issues"
+  },
+  "homepage": "https://github.com/medihebfaiza/studio-saber#readme"
+}
