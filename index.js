@@ -16,6 +16,8 @@ app.get('/', function(request, response) {
 });
 
 app.get('/db', function (request, response) {
+  pg.defaults.ssl = true ;
+  console.log("Trying to connect to Database : "+process.env.DATABASE_URL);
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     if (err)
       console.log("couldn't connect to database :" + process.env.DATABASE_URL) ;
