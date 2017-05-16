@@ -1,0 +1,127 @@
+/*
+Color palette :
+#9A12B2
+#FFBA00
+#D800FF
+#14CC93
+#09B27E
+*/
+
+/* navbar */
+.navbar-custom {
+  background-color: #222222;
+  border-color: transparent;
+}
+.navbar-custom .navbar-brand {
+  font-family: 'Lobster', cursive;
+  color: #FFBA00;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus,
+.navbar-custom .navbar-brand:active,
+.navbar-custom .navbar-brand.active {
+  color: #cb9400;
+}
+.navbar-custom .navbar-collapse {
+  border-color: rgba(255, 255, 255, 0.02);
+}
+.navbar-custom .navbar-toggle {
+  background-color: #FFBA00;
+  border-color: #FFBA00;
+  text-transform: uppercase;
+  color: white;
+  font-size: 12px;
+}
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus {
+  background-color: #FFBA00;
+}
+.navbar-custom .nav li a {
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: white;
+}
+.navbar-custom .nav li a:hover,
+.navbar-custom .nav li a:focus {
+  color: #FFBA00;
+  outline: none;
+}
+.navbar-custom .navbar-nav > .active > a {
+  border-radius: 0;
+  color: white;
+  background-color: #FFBA00;
+}
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus {
+  color: white;
+  background-color: #FFBA00;
+}
+@media (min-width: 768px) {
+  .navbar-custom {
+    background-color: transparent;
+    padding: 25px 0;
+    -webkit-transition: padding 0.3s;
+    -moz-transition: padding 0.3s;
+    transition: padding 0.3s;
+    border: none;
+  }
+  .navbar-custom .navbar-brand {
+    font-size: 2em;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .navbar-custom .navbar-nav > .active > a {
+    border-radius: 3px;
+  }
+}
+@media (min-width: 768px) {
+  .navbar-custom.affix {
+    background-color: #222222;
+    padding: 10px 0;
+  }
+  .navbar-custom.affix .navbar-brand {
+    font-size: 1.5em;
+  }
+}
+
+/* header */
+header {
+    background-image: url('../img/header-bg.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left top;
+    background-size: cover;
+}
+
+@media (max-width: 768px){
+  header {
+    background-position: -250px top;
+  }
+}
+
+header .intro {
+  text-align: center;
+  color: white ;
+  padding-top: 200px;
+  padding-bottom: 200px;
+}
+
+header .intro .intro-welcome {
+  text-shadow: 1px 1px 4px #000000;
+  font-size: 50px;
+  line-height: 50px;
+  margin-bottom: 25px;
+}
+
+header .intro .intro-help-you {
+  font-size: 22px;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
+
+header .btn-xl {
+  color: #ffffff ;
+  background-color: #14CC93 ;
+}
