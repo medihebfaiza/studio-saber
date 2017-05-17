@@ -1,0 +1,18 @@
+<section id="findus">
+  <script>
+    function initMap() {
+      var uluru = {lat: 37.235601, lng: 9.864144};
+      var map = new google.maps.Map(document.getElementById('findus'), {
+        zoom: 8,
+        center: uluru
+      });
+      var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+      });
+    }
+  </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWgfGKd3YDOBoAbncGkBmSw6AbLfibIhE&callback=initMap">
+  </script>
+</section>

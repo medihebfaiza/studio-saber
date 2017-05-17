@@ -5,6 +5,7 @@ Color palette :
 #D800FF
 #14CC93
 #09B27E
+#353A4E
 */
 
 /* navbar */
@@ -78,7 +79,7 @@ Color palette :
 }
 @media (min-width: 768px) {
   .navbar-custom.affix {
-    background-color: #222222;
+    background-color: #353A4E;
     padding: 10px 0;
   }
   .navbar-custom.affix .navbar-brand {
@@ -124,4 +125,38 @@ header .intro .intro-help-you {
 header .btn-xl {
   color: #ffffff ;
   background-color: #14CC93 ;
+}
+
+a {
+  color: #09B27E ;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+  color: #ffffff ;
+  background-color: #14CC93 ;
+  border-radius: 0px ;
+}
+
+#login-submit,
+#register-submit {
+  color : white ;
+  background-color: #9A12B2 ;
+}
+
+.service-icon {
+  border-radius: 50% ;
+  width: 200px ;
+  height: 200px ;
+  color: white ;
+  background-color: #9A12B2 ;
+  text-align: center;
+  font-size: 100px ;
+  padding-top: 50px
+}
+
+#findus {
+  height: 400px;
+  width: 100%;
 }
