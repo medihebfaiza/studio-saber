@@ -2,7 +2,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var passportJWT = require("passport-jwt");
-var users = require("./users.js");
+var client = require("./models/client.js");
 var cfg = require("./config.js");
 var ExtractJwt = passportJWT.ExtractJwt;
 var Strategy = passportJWT.Strategy;
@@ -14,7 +14,16 @@ var params = {
 module.exports = function() {
     var strategy = new Strategy(params, function(payload, done) {
         //This is just for testing, we should verify users in Database instead
-        var user = users[payload.id] || null;
+        var user ;
+        console.log("loog=king for client with id : " + payload.id);
+        client.getClientById(payload.id, function(err,client){
+          if (!client){
+            user = null ;
+          }
+          else {
+            user = client ;
+          }
+        });
         if (user) {
             return done(null, {
                 id: user.id

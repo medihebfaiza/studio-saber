@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "*",
     "browser-sync": "^2.18.11",
     "ejs": "2.5.6",
     "express": "4.15.2",
     "jwt-simple": "*",
     "mongodb": "*",
+    "mongoose": "^4.9.10",
     "passport": "*",
     "passport-http": "*",
     "passport-jwt": "*",

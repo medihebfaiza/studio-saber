@@ -99,9 +99,11 @@ function MainCtrl(user, auth) {
 
   function handleRequest(res) {
     var token = res.data ? res.data.token : null;
-    if(token) { console.log('JWT:', token); }
-    self.saveToken(res.data.token);
-    self.message = res.data.token;
+    if(token) {
+      console.log('JWT:', token);
+      //self.saveToken(res.data.token);//save the token here
+      self.message = res.data.token;
+    }
     /*
       setRequestHeader("Authorization", "JWT " + token);
     */
