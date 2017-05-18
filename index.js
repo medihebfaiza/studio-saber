@@ -37,8 +37,10 @@ app.get("/api", function(req, res) {
 });
 
 app.get("/user", auth.authenticate(), function(req, res) {
-    console.log('User trying to access /user');//TEST
-    res.json(users[req.user.id]);
+    console.log('User '+req.user.id+' trying to access /user');//TEST
+    res.json({
+        message: "This message can only be seen by our lovely clients"
+    });
 });
 
 // Generating tokens for authenticated users
