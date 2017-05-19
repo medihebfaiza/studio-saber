@@ -9,7 +9,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "*",
-    "browser-sync": "^2.18.11",
     "ejs": "2.5.6",
     "express": "4.15.2",
     "jwt-simple": "*",
