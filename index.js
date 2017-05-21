@@ -68,7 +68,7 @@ app.post("/register", function(req,res){
   console.log("Trying to add client : "+newClient);//TEST
 
   /* Should Check if client already exists befo */
-  Client.getClientByEmail(email,function(err,client){
+  Client.getClientByEmail(req.body.email,function(err,client){
     if (err) throw err ;
     if (client){
       res.json({
@@ -89,7 +89,7 @@ app.post("/register", function(req,res){
         }
       });
     }
-  });  
+  });
 });
 
 // Generating tokens for authenticated clients
