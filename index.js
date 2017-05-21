@@ -84,7 +84,7 @@ app.post("/register", function(req,res){
         }
         else {
           res.json({
-            message: "Your Client Account has been Successfully !"
+            message: "Your Client Account has been created successfully !"
           });
         }
       });

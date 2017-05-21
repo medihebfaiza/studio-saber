@@ -128,11 +128,11 @@ function RegisterCtrl(user, auth) {
     }
     else if (self.email == null){
       self.alertType = null ;
-      self.message = "Enter E-mail Number Please" ;
+      self.message = "Enter E-mail Please" ;
     }
     else if (self.password == null){
       self.alertType = null ;
-      self.message = "Enter Password Number Please" ;
+      self.message = "Enter Password Please" ;
     }
     else if (self.password != self.confirmPassword){
       self.message = "The Two Passwords Doesn't Match" ;
