@@ -17,7 +17,8 @@
     "passport": "*",
     "passport-http": "*",
     "passport-jwt": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "serve-favicon": "^2.4.3"
   },
   "repository": {
     "type": "git",

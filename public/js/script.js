@@ -86,7 +86,7 @@ function userService($http, API, auth) {
 
   self.login = function(email, password) {
     console.log("angular email retrieved "+email+" pass" + password);//Test
-    return $http.post(API + '/token', {
+    return $http.post(API + '/login', {
       email: email,
       password: password
     })
@@ -129,8 +129,8 @@ angular.module('app', [])
 .factory('authInterceptor', authInterceptor)
 .service('user', userService)
 .service('auth', authService)
-/*.constant('API', 'http://localhost:5000')*/ //USE THIS LOCALLY
-.constant('API', 'https://studio-saber.herokuapp.com')
+.constant('API', 'http://localhost:5000') //USE THIS LOCALLY
+/*.constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT*/
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
 })

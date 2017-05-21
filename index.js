@@ -1,11 +1,12 @@
 var express = require('express');
 var path = require('path');
+var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var jwt = require("jwt-simple");
 var cfg = require("./config.js");
 var auth = require("./auth.js")();
 var dbUrl = 'mongodb://medihebfaiza:vBA3dBTgGBar4pyD@cluster0-shard-00-00-jkjon.mongodb.net:27017,cluster0-shard-00-01-jkjon.mongodb.net:27017,cluster0-shard-00-02-jkjon.mongodb.net:27017/studiosaber?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin' ;
-var client = require("./models/client.js")
+var Client = require("./models/client.js")
 var mongoose = require('mongoose') ;
 
 mongoose.connect(dbUrl);
@@ -20,8 +21,14 @@ app.set('port', (process.env.PORT || 5000));
 // Set Static Folder
 app.use(express.static(__dirname + '/public'));
 
+// Set Favicon
+app.use(favicon(path.join(__dirname,'public','img','favicon.ico')));
+
 // REST API
 app.use(bodyParser.json());
+
+// For parsing request bodies
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Authentication Initialization
 app.use(auth.initialize());
@@ -48,32 +55,64 @@ app.get("/client", auth.authenticate(), function(req, res) {
     });
 });
 
+/* Registration Route */
+app.post("/register", function(req,res){
+  var newClient = new Client({
+			firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      gender: req.body.gender,
+      telNumber: req.body.telNumber,
+			email: req.body.email,
+			password: req.body.password
+		});
+  console.log("Trying to add client : "+newClient);//TEST
+
+  Client.createClient(newClient,function(err){
+    if (err){
+      res.json({
+        message: "fail"
+      });
+    }
+    else {
+      res.json({
+        message: "success"
+      });
+    }
+  });
+});
+
 // Generating tokens for authenticated clients
-app.post("/token", function(req, res) {
+app.post("/login", function(req, res) {
     var email = req.body.email || req.headers['email'];
     var password = req.body.password || req.headers['password'];
     if (email && password) {
       console.log('Client '+email+' Trying to login with Password : '+password) ;//TEST
-      client.getClientByEmail(email,function(err,client){
+      Client.getClientByEmail(email,function(err,client){
         if (err) throw err ;
         if (!client){
           res.sendStatus(401);
         }
         else {
-          if (password == "123"){ //TEST : Get the real client pass instead
-            /* Problem Here with saving the client id, maybe beacause of the datatype on mongodb*/
-            var payload = {
-                id: client.id
-            };
-            var token = jwt.encode(payload, cfg.jwtSecret); //Generates the token
-            console.log('Client '+email+' got the Token') ;//TEST
-            res.json({
-              token : token
-            }) ;
-          }
-          else {
-            res.sendStatus(401);
-          }
+          Client.comparePassword(password,client.password, function(err,isMatch){
+            if(err) throw err;
+            if (!isMatch){
+              console.log('wrong password') ;//TEST
+              res.json({
+                message : 'wrong',
+                token : ''
+              });
+            }
+            else {
+              var payload = {
+                  id: client._id
+              };
+              var token = jwt.encode(payload, cfg.jwtSecret); //Generates the token
+              console.log('Client '+email+' got the Token') ;//TEST
+              res.json({
+                token : token
+              }) ;
+            }
+          });
         }
       });
     }
