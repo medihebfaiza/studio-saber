@@ -85,36 +85,80 @@ function userService($http, API, auth) {
   var self = this;
 
   self.login = function(email, password) {
-    console.log("angular email retrieved "+email+" pass" + password);//Test
     return $http.post(API + '/login', {
       email: email,
       password: password
     })
   };
+
+  self.register = function(firstName,lastName,telNumber,email,password){
+    return $http.post(API + '/register', {
+      firstName: firstName,
+      lastName: lastName,
+      telNumber: telNumber,
+      email: email,
+      password: password
+    });
+  }
 }
 
-// We won't touch anything in here
-function MainCtrl(user, auth) {
+function RegisterCtrl(user, auth) {
+  var self = this;
+
+  function handleRequest(res) {
+    var message = res.data ? res.data.message : null;
+    if(message) {
+      self.alertType = 'success' ;
+      self.message = message; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
+    }
+  }
+
+  self.register = function() {
+    if (self.firstName == null){
+      self.alertType = null ;
+      self.message = "Enter First Name Please" ;
+    }
+    else if (self.gender == null){
+      self.alertType = null ;
+      self.message = "Enter Gender Please" ;
+    }
+    else if (self.telNumber == null){
+      self.alertType = null ;
+      self.message = "Enter Telephone Number Please" ;
+    }
+    else if (self.email == null){
+      self.alertType = null ;
+      self.message = "Enter E-mail Number Please" ;
+    }
+    else if (self.password == null){
+      self.alertType = null ;
+      self.message = "Enter Password Number Please" ;
+    }
+    else if (self.password != self.confirmPassword){
+      self.message = "The Two Passwords Doesn't Match" ;
+    }
+    else {
+      user.register(self.firstName, self.lastName, self.telNumber, self.email, self.password)
+        .then(handleRequest, handleRequest)
+    }
+  }
+
+}
+
+function LoginCtrl(user, auth) {
   var self = this;
 
   function handleRequest(res) {
     var token = res.data ? res.data.token : null;
     if(token) {
       console.log('JWT:', token);
-      //self.saveToken(res.data.token);//save the token here
-      self.message = res.data.token;
+      auth.saveToken(res.data.token);//save the token here
+      self.message = "Successfully Logged in"; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
     }
-    /*
-      setRequestHeader("Authorization", "JWT " + token);
-    */
   }
 
   self.login = function() {
     user.login(self.email, self.password)
-      .then(handleRequest, handleRequest)
-  }
-  self.register = function() {
-    user.register(self.username, self.password)
       .then(handleRequest, handleRequest)
   }
   self.logout = function() {
@@ -129,10 +173,11 @@ angular.module('app', [])
 .factory('authInterceptor', authInterceptor)
 .service('user', userService)
 .service('auth', authService)
-.constant('API', 'http://localhost:5000') //USE THIS LOCALLY
-/*.constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT*/
+/*.constant('API', 'http://localhost:5000')*/ //USE THIS LOCALLY
+.constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
 })
-.controller('Main', MainCtrl)
+.controller('Login', LoginCtrl)
+.controller('Register', RegisterCtrl)
 })();

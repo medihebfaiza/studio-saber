@@ -67,18 +67,29 @@ app.post("/register", function(req,res){
 		});
   console.log("Trying to add client : "+newClient);//TEST
 
-  Client.createClient(newClient,function(err){
-    if (err){
+  /* Should Check if client already exists befo */
+  Client.getClientByEmail(email,function(err,client){
+    if (err) throw err ;
+    if (client){
       res.json({
-        message: "fail"
+        message: "An Account is already created with this email"
       });
     }
     else {
-      res.json({
-        message: "success"
+      Client.createClient(newClient,function(err){
+        if (err){
+          res.json({
+            message: "Failed"
+          });
+        }
+        else {
+          res.json({
+            message: "Your Client Account has been Successfully !"
+          });
+        }
       });
     }
-  });
+  });  
 });
 
 // Generating tokens for authenticated clients

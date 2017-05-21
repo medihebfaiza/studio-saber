@@ -12,33 +12,26 @@ var params = {
 };
 
 module.exports = function() {
-    var strategy = new Strategy(params, function(payload, done) {
-        //This is just for testing, we should verify users in Database instead
-        var user ;
-        console.log("loog=king for client with id : " + payload.id);
-        client.getClientById(payload.id, function(err,client){
-          if (!client){
-            user = null ;
-          }
-          else {
-            user = client ;
-          }
+  var strategy = new Strategy(params, function(payload, done) {
+    Client.getClientById(payload.id, function(err,client){
+      if (err) throw err ;
+      if (!client){
+        return done(new Error("User not found"), null);
+      }
+      else {
+        return done(null, {
+          id: client.id
         });
-        if (user) {
-            return done(null, {
-                id: user.id
-            });
-        } else {
-            return done(new Error("User not found"), null);
-        }
+      }
     });
-    passport.use(strategy);
-    return {
-        initialize: function() {
-            return passport.initialize();
-        },
-        authenticate: function() {
-            return passport.authenticate("jwt", cfg.jwtSession);
-        }
-    };
+  });
+  passport.use(strategy);
+  return {
+    initialize: function() {
+      return passport.initialize();
+    },
+    authenticate: function() {
+      return passport.authenticate("jwt", cfg.jwtSession);
+    }
+  };
 };
