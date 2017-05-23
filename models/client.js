@@ -3,9 +3,6 @@ var bcrypt = require('bcryptjs');
 
 // Client Schema
 var ClientSchema = mongoose.Schema({
-	id: {
-		type: Number
-	},
 	firstName: {
 		type: String
 	},
@@ -44,8 +41,14 @@ module.exports.getClientByEmail = function(email, callback){
 }
 
 module.exports.getClientById = function(id, callback){
-	/*Maybe should try findOne*/
 	Client.findById(id, callback);
+}
+
+module.exports.deleteClientByEmail = function(email, callback){
+  var query = {
+    email : email
+  };
+  Client.remove(query, callback);
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){

@@ -85,20 +85,28 @@ function userService($http, API, auth) {
   var self = this;
 
   self.login = function(email, password) {
-    return $http.post(API + '/login', {
+    return $http.post(API + '/client/login', {
       email: email,
       password: password
     })
   };
 
   self.register = function(firstName,lastName,telNumber,email,password){
-    return $http.post(API + '/register', {
+    return $http.post(API + '/client/register', {
       firstName: firstName,
       lastName: lastName,
       telNumber: telNumber,
       email: email,
       password: password
     });
+  }
+}
+
+function NavbarCtrl(user, auth) {
+  var self = this ;
+
+  self.logout = function() {
+    auth.saveToken(null) ;
   }
 }
 
@@ -135,7 +143,7 @@ function RegisterCtrl(user, auth) {
       self.message = "Enter Password Please" ;
     }
     else if (self.password != self.confirmPassword){
-      self.message = "The Two Passwords Doesn't Match" ;
+      self.message = "The two passwords does not Match" ;
     }
     else {
       user.register(self.firstName, self.lastName, self.telNumber, self.email, self.password)
@@ -153,7 +161,12 @@ function LoginCtrl(user, auth) {
     if(token) {
       console.log('JWT:', token);
       auth.saveToken(res.data.token);//save the token here
+      self.alertType = 'success' ;
       self.message = "Successfully Logged in"; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
+    }
+    else {
+      self.alertType = 'danger' ;
+      self.message = "Wrong Password/E-mail"
     }
   }
 
@@ -173,11 +186,12 @@ angular.module('app', [])
 .factory('authInterceptor', authInterceptor)
 .service('user', userService)
 .service('auth', authService)
-/*.constant('API', 'http://localhost:5000')*/ //USE THIS LOCALLY
-.constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT
+.constant('API', 'http://localhost:5000') //USE THIS LOCALLY
+/*.constant('API', 'https://studio-saber.herokuapp.com')*/ //USE THIS FOR DEPLOYMENT
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
 })
 .controller('Login', LoginCtrl)
 .controller('Register', RegisterCtrl)
+.controller('Navbar', NavbarCtrl)
 })();

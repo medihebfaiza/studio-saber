@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+<nav ng-controller="Navbar as navbar" id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -34,7 +34,12 @@
                     <a class="page-scroll" href="#contact">Contact</a>
                 </li>
                 <li>
-                  <a class="connect-link" href="#loginModal" data-toggle="modal">Log In</a>
+                  <a ng-show="!ath.getToken()" class="connect-link" href="#loginModal" data-toggle="modal">Log In</a>
+                </li>
+                <li>
+                  <!-- See how to refresh this with AngularJS -->
+                  <a ng-show="ath.getToken()" class="connect-link" href="#clientDashboard" data-toggle="modal">Dashboard</a>
+                  <a ng-show="ath.getToken()" class="connect-link" ng-click="navbar.logout()" data-toggle="modal">Logout</a>
                 </li>
             </ul>
         </div>

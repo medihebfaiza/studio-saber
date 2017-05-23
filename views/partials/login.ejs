@@ -39,7 +39,9 @@
           									<div class="form-group">
           										<div class="row">
           											<div class="col-sm-6 col-sm-offset-3">
-                                  {{login.message}}
+                                  <div uib-alert ng-show="login.message" ng-class="'alert alert-' + (login.alertType || 'warning')" close="closeAlert($index)" role="alert" aria-hidden="true">
+                                    {{login.message}}
+                                  </div>
           												<button ng-click="login.login()" id="login-submit" tabindex="4" class="form-control btn btn-login">Log In</button>
           											</div>
           										</div>
