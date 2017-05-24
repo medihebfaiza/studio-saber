@@ -5,7 +5,6 @@ var jwt = require("jwt-simple");
 var cfg = require("../config.js");
 var auth = require("../auth.js")();
 
-/* Registration Route */
 router.post("/register", function(req,res){
   /* Tout mettre dans le module */
   var newClient = new Client({
@@ -16,27 +15,20 @@ router.post("/register", function(req,res){
 			email: req.body.email,
 			password: req.body.password
 		});
-  console.log("Trying to add client : "+newClient);//TEST
 
   /* Should Check if client already exists befo */
   Client.getClientByEmail(req.body.email,function(err,client){
     if (err) throw err ;
     if (client){
-      res.json({
-        message: "An Account is already created with this Email"
-      });
+      res.senStatus(409) ;
     }
     else {
       Client.createClient(newClient,function(err){
         if (err){
-          res.json({
-            message: "Failed to create Client Account"
-          });
+          res.senStatus(409) ;
         }
         else {
-          res.json({
-            message: "Your Client Account has been created successfully !"
-          });
+          res.senStatus(201) ;
         }
       });
     }
@@ -58,18 +50,14 @@ router.post("/login", function(req, res) {
           Client.comparePassword(password,client.password, function(err,isMatch){
             if(err) throw err;
             if (!isMatch){
-              console.log('wrong password') ;//TEST
-              res.json({
-                message : 'wrong',
-                token : ''
-              });
+              res.sendStatus(401);
             }
             else {
               var payload = {
                   id: client._id
               };
               var token = jwt.encode(payload, cfg.jwtSecret); //Generates the token
-              console.log('Client '+email+' got the Token') ;//TEST
+              res.status(200) ;
               res.json({
                 token : token
               }) ;
@@ -80,8 +68,56 @@ router.post("/login", function(req, res) {
     }
 });
 
-router.get("/client", auth.authenticate(), function(req, res) {
-    console.log('client '+req.user.id+' trying to access /client');//TEST
+router.get("/all",function(req,res){
+  Client.getClients(function(err,clients){
+    if (err){
+      res.sendStatus(404) ;
+    }
+    else {
+      res.status(200);
+      res.json(clients);
+    }
+  });
+});
+
+router.get("/:clientId",function(req,res){
+  var data = req.params ;
+  Client.getClient(data.clientId,function(err,client){
+    if (err){
+      res.sendStatus(404) ;
+    }
+    else {
+      res.status(200);
+      res.json(client);
+    }
+  });
+});
+
+router.patch("/:clientId",function(req,res){
+  var data = req.params ;
+  Client.updateClientPassword(data.clientId,req.body.newPassword,function(err){
+    if (err){
+      res.senStatus(404) ;
+    }
+    else {
+      res.sendStatus(200) ;
+    }
+  });
+});
+
+router.delete("/delete/:clientId",function(req,res){
+  var data = req.params ;
+  Client.deleteClientById(data.clientId,function(err){
+    if (err){
+      res.senStatus(404) ;
+    }
+    else {
+      res.senStatus(200) ;
+    }
+  });
+});
+
+router.get("/protected", auth.authenticate(), function(req, res) {
     res.json({
         message: "This message can only be seen by our lovely clients"
     });

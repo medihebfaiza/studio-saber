@@ -14,14 +14,10 @@ router.post("/create",function(req,res){
   });
   Equipment.createEquipment(newEquipment,function(err){
     if (err){
-      res.json({
-        message : "Couldn't create Equipment"
-      });
+      res.sendStatus(404) ;
     }
     else {
-      res.json({
-        message : "Created Equipment successfully"
-      });
+      res.sendStatus(201) ;
     }
   });
 });
@@ -30,11 +26,10 @@ router.post("/create",function(req,res){
 router.get("/all",function(req,res){
   Equipment.getAllEquipment(function(err,equipment){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404) ;
     }
     else {
+      res.status(200);
       res.json(equipment);
     }
   });
@@ -43,11 +38,10 @@ router.get("/all",function(req,res){
 router.get("/available",function(req,res){
   Equipment.getAvailableEquipment(function(err,equipment){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404) ;
     }
     else {
+      res.status(200);
       res.json(equipment);
     }
   });
@@ -57,12 +51,35 @@ router.get("/:equipmentId",function(req,res){
   var data = req.params ;
   Equipment.getEquipment(data.equipmentId,function(err,equipment){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404) ;
     }
     else {
+      res.status(200);
       res.json(equipment);
+    }
+  });
+});
+
+router.patch("/available/:equipmentId",function(req,res){
+  var data = req.params ;
+  Equipment.makeAvailable(data.equipmentId,function(err){
+    if (err){
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+router.patch("/unavailable/:equipmentId",function(req,res){
+  var data = req.params ;
+  Equipment.makeUnAvailable(data.equipmentId,function(err){
+    if (err){
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
     }
   });
 });

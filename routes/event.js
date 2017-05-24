@@ -17,14 +17,10 @@ router.post("/create",function(req,res){
   });
   Event.createEvent(newEvent,function(err){
     if (err){
-      res.json({
-        message : "Couldn't add Event"
-      });
+      res.sendStatus(404);
     }
     else {
-      res.json({
-        message : "Added Event successfully"
-      });
+      res.sendStatus(201);
     }
   });
 });
@@ -33,11 +29,10 @@ router.get("/client/:clientId",function(req,res){
   var data = req.params ;
   Event.getClientEvents(data.clientId,function(err,events){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404);
     }
     else {
+      res.status(200);
       res.json(events);
     }
   });
@@ -47,11 +42,10 @@ router.get("/staff/:staffId",function(req,res){
   var data = req.params ;
   Event.getStaffEvents(data.staffId,function(err,events){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404);
     }
     else {
+      res.status(200);
       res.json(events);
     }
   });
@@ -61,12 +55,47 @@ router.get("/all",function(req,res){
   var data = req.params ;
   Event.getEvents(function(err,events){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404);
     }
     else {
+      res.status(200);
       res.json(events);
+    }
+  });
+});
+
+router.patch("/confirm/:eventId",function(req,res){
+  var data = req.params ;
+  Event.confirmEvent(data.eventId,function(err){
+    if (err){
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+router.patch("/unconfirm/:eventId",function(req,res){
+  var data = req.params ;
+  Event.unconfirmEvent(data.eventId,function(err){
+    if (err){
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+router.delete("/:eventId",function(req,res){
+  var data = req.params ;
+  Event.deleteEvent(data.eventId,function(err){
+    if (err){
+      res.sendStatus(404) ;
+    }
+    else {
+      res.sendStatus(200) ;
     }
   });
 });

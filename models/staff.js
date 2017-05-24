@@ -2,43 +2,25 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
 var StaffSchema = mongoose.Schema({
-  id: {
-    type: Number
-  },
-  firstName: {
-    type: String
-  },
-  lastName: {
-    type: String
-  },
-  gender: {
-    type: String
-  },
+  firstName: String,
+  lastName: String,
+  gender: String,
+  category: String,
   age: {
     type: Number,
     min: 18,
     max: 65
   },
-  telNumber: {
-    type: String
-  },
-  wage: {
-    type: Number,
-    available: Boolean
-  },
-  description:{
-    type: String
-  },
-  image:{
-    type: String
-  },
+  telNumber: String,
+  wage: Number,
+  available: Boolean,
+  description: String,
+  image: String,
   email: {
     type: String,
     index:true
   },
-  password: {
-    type: String
-  }
+  password: String
 });
 
 var Staff = module.exports = mongoose.model('Staff', StaffSchema);
@@ -59,6 +41,23 @@ module.exports.getStaffByEmail = function(email, callback){
 
 module.exports.getStaffById = function(id, callback){
 	Staff.findById(id, callback);
+}
+
+module.exports.getAllStaff = function(callback){
+	Staff.find({}, callback);
+}
+
+module.exports.updateStaffPassword = function(id, newPassword, callback){
+  bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(newPassword, salt, function(err, hash) {
+          newPassword = hash;
+          Staff.update({_id:id},{password:newPassword},callback);
+      });
+  });
+}
+
+module.exports.deleteStaffById = function(staffId, callback){
+  Staff.remove({_id:staffId}, callback);
 }
 
 module.exports.deleteStaffByEmail = function(email, callback){

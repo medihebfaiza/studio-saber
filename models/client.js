@@ -3,25 +3,15 @@ var bcrypt = require('bcryptjs');
 
 // Client Schema
 var ClientSchema = mongoose.Schema({
-	firstName: {
-		type: String
-	},
-	lastName: {
-		type: String
-	},
-	gender: {
-		type: String
-	},
-	telNumber: {
-		type: String
-	},
+	firstName: String,
+	lastName: String,
+	gender: String,
+	telNumber: String,
 	email: {
 		type: String,
 		index:true
 	},
-	password: {
-		type: String
-	}
+	password: String
 });
 
 var Client = module.exports = mongoose.model('Client', ClientSchema);
@@ -42,6 +32,26 @@ module.exports.getClientByEmail = function(email, callback){
 
 module.exports.getClientById = function(id, callback){
 	Client.findById(id, callback);
+}
+
+module.exports.getClients = function(callback){
+	Client.find({}, callback);
+}
+
+module.exports.updateClientPassword = function(clientId, newPassword,callback){
+	bcrypt.genSalt(10, function(err, salt) {
+			bcrypt.hash(newPassword, salt, function(err, hash) {
+					newPassword = hash;
+					Client.update({_id:clientId}, {password:newPassword},callback);
+			});
+	});
+}
+
+module.exports.deleteClientById = function(clientId, callback){
+  var query = {
+    _id : clientId
+  };
+  Client.remove(query, callback);
 }
 
 module.exports.deleteClientByEmail = function(email, callback){

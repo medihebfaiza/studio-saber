@@ -8,6 +8,7 @@ router.post("/create",function(req,res){
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     gender: req.body.gender,
+    category: req.body.category,
     age: req.body.age,
     telNumber: req.body.telNumber,
     wage: req.body.wage,
@@ -20,39 +21,66 @@ router.post("/create",function(req,res){
   Staff.getStaffByEmail(req.body.email,function(err,staff){
     if (err) throw err ;
     if (staff){
-      res.json({
-        message : "A Staff is already created with this Email"
-      });
+      res.sendStatus(409);
     }
     else {
       Staff.createStaff(newStaff, function(err){
         if (err) {
-          res.json({
-            message: "Failed to create Staff Account"
-          });
+          res.sendStatus(404);
         }
         else {
-          res.json({
-            message: "Staff Account has been created successfully !"
-          });
+          res.sendStatus(201);
         }
       });
     }
   });
 });
 
-/* Deleting Staff */
-router.post("/delete",function(req,res){
-  Staff.deleteStaffByEmail(req.body.email,function(err){
-    if (err) {
-      res.json({
-        message : "Failed to remove Staff"
-      });
+router.get("/all",function(req,res){
+  Staff.getAllStaff(function(err,staff){
+    if (err){
+      res.sendStatus(404);
     }
     else {
-      res.json({
-        message : "Removed Staff Successfully"
-      });
+      res.status(200) ;
+      res.json(staff);
+    }
+  });
+});
+
+router.get("/:staffId",function(req,res){
+  var data = req.params ;
+  Staff.getStaffById(data.staffId,function(err,staff){
+    if (err){
+      res.sendStatus(404);
+    }
+    else {
+      res.status(200);
+      res.json(staff);
+    }
+  });
+});
+
+router.patch("/:staffId",function(req,res){
+  var data = req.params ;
+  Staff.updateStaffPassword(data.staffId,req.body.newPassword,function(err){
+    if (err) {
+      res.sendStatus(404) ;
+    }
+    else {
+      res.sendStatus(200) ;
+    }
+  });
+});
+
+router.delete("/:staffId",function(req,res){
+  var data = req.params ;
+  Staff.deleteStaffById(data.staffId,function(err){
+    if (err) {
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
     }
   });
 });

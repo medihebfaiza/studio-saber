@@ -12,14 +12,10 @@ router.post("/create",function(req,res){
   });
   Rent.createRent(newRent,function(err){
     if (err){
-      res.json({
-        message : "Couldn't create Rent"
-      });
+      res.sendStatus(404);
     }
     else {
-      res.json({
-        message : "Created Rent successfully"
-      });
+      res.sendStatus(200);
     }
   });
 });
@@ -28,10 +24,10 @@ router.patch("/confirm/:rentId",function(req,res){
   var data = req.params ;
   Rent.confirmRent(data.rentId,function(err){
     if (err){
-      res.status(err).send("Couldn't Confirm Rent");
+      res.sendStatus(404);
     }
     else {
-      res.status(200).send("OK");
+      res.sendStatus(200);
     }
   });
 });
@@ -39,11 +35,10 @@ router.patch("/confirm/:rentId",function(req,res){
 router.get("/all",function(req,res){
   Rent.getRents(function(err,rents){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404);
     }
     else {
+      res.status(200);
       res.json(rents);
     }
   });
@@ -51,13 +46,12 @@ router.get("/all",function(req,res){
 
 router.get("/:rentId",function(req,res){
   var data = req.params ;
-  Rent.getEquipment(data.rentId,function(err,rent){
+  Rent.getRent(data.rentId,function(err,rent){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.sendStatus(404);
     }
     else {
+      res.status(200);
       res.json(rent);
     }
   });
@@ -67,11 +61,10 @@ router.get("/client/:clientId",function(req,res) {
   var data = req.params ;
   Rent.getClientRents(data.clientId,function(err,rents){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.status(404).send("Error");
     }
     else {
+      res.status(200);
       res.json(rents);
     }
   });
@@ -81,11 +74,10 @@ router.get("/equipment/:equipmentId",function(req,res) {
   var data = req.params ;
   Rent.getEquipmentRents(data.equipmentId,function(err,rents){
     if (err){
-      res.json({
-        message : "Error"
-      });
+      res.status(404).send("Error");
     }
     else {
+      res.status(200);
       res.json(rents);
     }
   });
@@ -95,14 +87,10 @@ router.delete("/:rentId",function(req,res){
   var data = req.params ;
   Rent.deleteRent(data.rentId,function(err){
     if (err){
-      res.json({
-        message : "Couldn't delete Rent"
-      });
+      res.sendStatus(405);
     }
     else {
-      res.json({
-        message : "Deleted Rent successfully"
-      });
+      res.sendStatus(200);
     }
   });
 });

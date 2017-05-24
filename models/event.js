@@ -1,8 +1,14 @@
 var mongoose = require('mongoose');
 
 var EventSchema = mongoose.Schema({
-  clientId: String,
-  staffIds: [String],
+  clientId: {
+		type: String,
+		index:true
+	},
+  staffIds: {
+		type: [String],
+		index:true
+	},
   eventType: String,
   name: String,
   date: Date,

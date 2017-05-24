@@ -1,8 +1,14 @@
 var mongoose = require('mongoose');
 
 var RentSchema = mongoose.Schema({
-  clientId: String,
-  equipmentId: String,
+  clientId: {
+		type: String,
+		index:true
+	},
+  equipmentId: {
+		type: String,
+		index:true
+	},
   date: Date,
   duration: Number,
   confirmed: Boolean
