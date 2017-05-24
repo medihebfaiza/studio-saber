@@ -186,8 +186,8 @@ angular.module('app', [])
 .factory('authInterceptor', authInterceptor)
 .service('user', userService)
 .service('auth', authService)
-.constant('API', 'http://localhost:5000') //USE THIS LOCALLY
-/*.constant('API', 'https://studio-saber.herokuapp.com')*/ //USE THIS FOR DEPLOYMENT
+/*.constant('API', 'http://localhost:5000')*/ //USE THIS LOCALLY
+.constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
 })

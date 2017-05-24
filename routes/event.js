@@ -29,10 +29,9 @@ router.post("/create",function(req,res){
   });
 });
 
-router.get("/client",function(req,res){
-  //ISSUE HERE CAN'T PARSE HEADERS
-  console.log("getting events for client "+req.headers['clientId']);//TEST
-  Event.getClientEvents(req.headers['clientId'],function(events,err){
+router.get("/client/:clientId",function(req,res){
+  var data = req.params ;
+  Event.getClientEvents(data.clientId,function(err,events){
     if (err){
       res.json({
         message : "Error"
@@ -43,5 +42,20 @@ router.get("/client",function(req,res){
     }
   });
 });
+
+router.get("/staff/:staffId",function(req,res){
+  var data = req.params ;
+  Event.getStaffEvents(data.staffId,function(err,events){
+    if (err){
+      res.json({
+        message : "Error"
+      });
+    }
+    else {
+      res.json(events);
+    }
+  });
+});
+
 
 module.exports = router;

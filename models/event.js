@@ -24,7 +24,7 @@ module.exports.createEvent = function(newEvent, callback){
 }
 
 module.exports.getEvents = function(callback){
-  Event.find({},callback) ;
+  Event.find(callback) ;//call back should have (err,events)
 }
 
 module.exports.confirmEvent = function(eventId,callback){
@@ -44,5 +44,15 @@ module.exports.deleteEvent = function(eventId,callback){
 }
 
 module.exports.getClientEvents = function(clientId,callback){
-  Event.find({clientId:clientId},callback) ;
+  var query = {
+    clientId:clientId
+  }
+  Event.find(query,callback) ;
+}
+
+module.exports.getStaffEvents = function(staffId,callback){
+  var query = {
+    staffIds:staffId
+  }
+  Event.find(query,callback) ;
 }
