@@ -49,7 +49,13 @@ var client = require('./routes/client');
 app.use('/client', client);
 
 var event = require('./routes/event');
-app.use('/event', event)
+app.use('/event', event);
+
+var equipment = require('./routes/equipment');
+app.use('/equipment',equipment) ;
+
+var rent = require('./routes/rent');
+app.use('/rent',rent) ;
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

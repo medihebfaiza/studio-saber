@@ -24,7 +24,7 @@ module.exports.createEvent = function(newEvent, callback){
 }
 
 module.exports.getEvents = function(callback){
-  Event.find(callback) ;//call back should have (err,events)
+  Event.find({},callback) ;//call back should have (err,events)
 }
 
 module.exports.confirmEvent = function(eventId,callback){

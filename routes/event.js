@@ -57,5 +57,19 @@ router.get("/staff/:staffId",function(req,res){
   });
 });
 
+router.get("/all",function(req,res){
+  var data = req.params ;
+  Event.getEvents(function(err,events){
+    if (err){
+      res.json({
+        message : "Error"
+      });
+    }
+    else {
+      res.json(events);
+    }
+  });
+});
+
 
 module.exports = router;
