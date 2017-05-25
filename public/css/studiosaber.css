@@ -162,7 +162,25 @@ a {
   height: 150px ;
 }
 
+.staff-image-min {
+  border-radius:  50% ;
+  width: 50px ;
+  height: 50px ;
+}
+
 #findus {
   height: 400px;
   width: 100%;
+}
+
+.staff-selection label > input{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+.staff-selection label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:3px solid transparent;
+}
+.staff-selection label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid #14CC93;
 }

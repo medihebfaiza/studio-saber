@@ -3,26 +3,65 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4>Book a Photographer</h4>
-      </div>
-      <div class="container">
         <div class="row">
-          <form id="event-form" style="display: block;">
-            <div class="input-group">
-              <span class="input-group-addon">Name</span>
-              <input id="event-name" type="text" class="form-control" name="event-name" placeholder="Enter the name of the Event">
+          <div class="col-lg-12 text-center">
+            <h2>Book a Photographer/Cameraman</h2>
+              <h3>Lorem ipsum dolor sit amet consectetur.</h3>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body row">
+        <div class="col-xs-12">
+          <form ng-controller="Event as event">
+            <div class="form-group">
+              <label>Event Name:</label>
+              <input ng-model="event.name" type="text" class="form-control" id="name">
             </div>
-            <div class="input-group">
-              <span class="input-group-addon">Address</span>
-              <input id="event-address" type="text" class="form-control" name="event-address" placeholder="Enter the address of the Event">
+            <div class="form-group">
+              <label>Event Date:</label>
+              <input ng-model="event.date" type="date" class="form-control" id="date" value="2011-01-13">
             </div>
-            <div class="input-group-addon">
-              <label for="comment">Description</label>
-              <textarea class="form-control" rows="5" id="form-description"></textarea>
+            <div class="form-group">
+              <label>Event Address:</label>
+              <input ng-model="event.address" type="text" class="form-control" id="address">
             </div>
-            <div class="input-group-addon">
-
+            <div class="form-group">
+              <label>Event Type:</label>
+              <select ng-model="event.type" class="form-control" id="type">
+                <option value="wedding">Wedding</option>
+                <option value="concert">Concert</option>
+                <option value="party">Party</option>
+                <option value="ceremony">Ceremony</option>
+                <option value="graduation">Graduation</option>
+                <<option value="other">Other</option>
+              </select>
             </div>
+            <div class="form-group">
+              <label>Event Description:</label>
+              <textarea ng-model="event.description" rows="2" class="form-control" id="description"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Event Duration:</label>
+              <input ng-model="event.duration" type="number" class="form-control" id="duration">
+            </div>
+            <div class="form-group" ng-controller="Staff as staff">
+              <label>Choose Photographer/Cameraman</label>
+              <div class="row" ng-repeat="aStaff in allStaff">
+                <div class="col-xs-12">
+                  <div class="staff-selection">
+                    <label>
+                      <input ng-model="event.staffId" type="radio" name="staffId" value="{{aStaff._id}}">
+                      <img ng-src="img/staff/{{aStaff.image}}" class="staff-image-min" />
+                      {{aStaff.firstName}} {{aStaff.lastName}} ({{aStaff.category}})
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div uib-alert ng-show="event.message" ng-class="'alert alert-' + (event.alertType || 'warning')" close="closeAlert($index)" role="alert" aria-hidden="true">
+              {{event.message}}
+            </div>
+            <button ng-click="event.createEvent()" class="btn btn-default">Book</button>
           </form>
         </div>
       </div>

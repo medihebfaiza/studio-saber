@@ -5,7 +5,7 @@ var Event = require("../models/event.js");
 router.post("/create",function(req,res){
   var newEvent = new Event ({
     clientId: req.body.clientId,
-    staffIds: req.body.staffIds,
+    staffId: req.body.staffId,
     eventType: req.bodyeventType,
     name: req.body.name,
     date: req.body.date,

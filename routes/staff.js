@@ -12,6 +12,7 @@ router.post("/create",function(req,res){
     age: req.body.age,
     telNumber: req.body.telNumber,
     wage: req.body.wage,
+    available: req.body.available,
     description: req.body.description,
     image: req.body.image,
     email: req.body.email,

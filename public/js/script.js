@@ -111,10 +111,77 @@ function NavbarCtrl(user, auth) {
 }
 
 /* The Controller for showing the Staff list on the home page */
+
 function StaffCtrl(API,$http,$scope){
+  var self = this ;
   $http.get(API+"/staff/all").then(function(res,allStaff){
     $scope.allStaff = res.data ;
   });
+
+  self.deleteStaff = function(staff){
+    $http.delete(API+"/staff/"+staff._id).then(function(res){
+      if (res.status == 200){
+        console.log("Successfully deleted staff");//TEST
+      }
+    });
+    $http.get(API+"/staff/all").then(function(res,allStaff){
+      $scope.allStaff = res.data ;
+    });
+  }
+
+  self.createStaff = function() {
+    if (self.firstName == null){
+      self.alertType = null ;
+      self.message = "Enter First Name Please" ;
+    }
+    else if (self.gender == null){
+      self.alertType = null ;
+      self.message = "Enter Gender Please" ;
+    }
+    else if (self.telNumber == null){
+      self.alertType = null ;
+      self.message = "Enter Telephone Number Please" ;
+    }
+    else if (self.email == null){
+      self.alertType = null ;
+      self.message = "Enter E-mail Please" ;
+    }
+    else if (self.password == null){
+      self.alertType = null ;
+      self.message = "Enter Password Please" ;
+    }
+    else {
+      $http.post(API + '/staff/create', {
+        firstName: self.firstName,
+        lastName: self.lastName,
+        gender: self.gender,
+        category: self.category,
+        age: self.age,
+        telNumber: self.telNumber,
+        wage: self.wage,
+        available: true,
+        description: self.description,
+        image: self.image,
+        email: self.email,
+        password: self.password
+      }).then(function(res){
+        if(res.status == 201) {
+          self.alertType = 'success' ;
+          self.message = "Successfully created Staff"; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
+          /* should refresh staff list but doesn't work
+             maybe should delay the get request
+          */
+          $http.get(API+"/staff/all").then(function(res,allStaff){
+            $scope.allStaff = res.data ;
+          });
+        }
+        else {
+          self.alertType = 'danger' ;
+          self.message = "Failed to create Staff"
+        }
+      });
+    }
+  }
 }
 
 /* The Controller for showing the list of Equipment on the home page */
@@ -124,14 +191,40 @@ function EquipmentCtrl(API,$http,$scope){
   });
 }
 
+/*The Controler for showing the list of clients on the admin's dashboard*/
+function ClientCtrl(API,$http,$scope){
+  $http.get(API+"/client/all").then(function(res,allClients){
+    $scope.allClients = res.data ;
+  });
+
+  this.deleteClient = function(client){
+    $http.delete(API+"/client/"+client._id).then(function(res){
+      if (res.status == 200){
+        console.log("Successfully deleted client");//TEST
+      }
+    });
+    $http.get(API+"/client/all").then(function(res,allClients){
+      $scope.allClients = res.data ;
+    });
+  }
+}
+
 function RegisterCtrl(user, auth) {
   var self = this;
 
   function handleRequest(res) {
     var message = res.data ? res.data.message : null;
-    if(message) {
+    if(res.status == 201) {
       self.alertType = 'success' ;
-      self.message = message; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
+      self.message = "Client account was created successfully";
+    }
+    else if(res.status == 409) {
+      self.alertType = 'warning' ;
+      self.message = "A Client account already exists with this email address";
+    }
+    else {
+      self.alertType = 'danger' ;
+      self.message = "An error occured, couldn't create Client account";
     }
   }
 
@@ -157,7 +250,7 @@ function RegisterCtrl(user, auth) {
       self.message = "Enter Password Please" ;
     }
     else if (self.password != self.confirmPassword){
-      self.message = "The two passwords does not Match" ;
+      self.message = "The two passwords doesn't Match" ;
     }
     else {
       user.register(self.firstName, self.lastName, self.telNumber, self.email, self.password)
@@ -192,71 +285,6 @@ function LoginCtrl(user, auth) {
   }
   self.isAuthed = function() {
     return auth.isAuthed ? auth.isAuthed() : false
-  }
-}
-
-
-/* Staff Form Service and Controller */
-function staffService($http, API) {
-  var self = this;
-
-  self.create = function(firstName,lastName,gender,category,age,telNumber,wage,description,image,email,password){
-    return $http.post(API + '/staff/create', {
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      category: category,
-      age: age,
-      telNumber: telNumber,
-      wage: wage,
-      available: "true",
-      description: description,
-      image: image,
-      email: email,
-      password: password
-    });
-  }
-}
-
-function StaffFormCtrl(staff){
-  var self = this ;
-
-  function handleRequest(res) {
-    if(res.data) {
-      self.alertType = 'success' ;
-      self.message = "Successfully created Staff"; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
-    }
-    else {
-      self.alertType = 'danger' ;
-      self.message = "Failed to create Staff"
-    }
-  }
-
-  self.createStaff = function() {
-    if (self.firstName == null){
-      self.alertType = null ;
-      self.message = "Enter First Name Please" ;
-    }
-    else if (self.gender == null){
-      self.alertType = null ;
-      self.message = "Enter Gender Please" ;
-    }
-    else if (self.telNumber == null){
-      self.alertType = null ;
-      self.message = "Enter Telephone Number Please" ;
-    }
-    else if (self.email == null){
-      self.alertType = null ;
-      self.message = "Enter E-mail Please" ;
-    }
-    else if (self.password == null){
-      self.alertType = null ;
-      self.message = "Enter Password Please" ;
-    }
-    else {
-      staff.create(self.firstName, self.lastName, self.gender, self.category, self.age, self.telNumber, self.wage, self.description, self.image, self.email, self.password)
-        .then(handleRequest, handleRequest)
-    }
   }
 }
 
@@ -310,11 +338,56 @@ function EquipmentFormCtrl(equipment){
   }
 }
 
+function EventCtrl(API,$http){
+  var self = this ;
+
+  self.createEvent = function() {
+    if (self.name == null){
+      self.alertType = null ;
+      self.message = "Enter Event Name Please" ;
+    }
+    else if (self.date == null){
+      self.alertType = null ;
+      self.message = "Enter Event Date Please" ;
+    }
+    else if (self.address == null){
+      self.alertType = null ;
+      self.message = "Enter Event Address Please" ;
+    }
+    else if (self.duration == null){
+      self.alertType = null ;
+      self.message = "Enter Event Duration Please" ;
+    }
+    else {
+      $http.post(API + '/event/create', {
+        clientId: "5927174854a391468d246c33",
+        staffId: self.staffId,
+        eventType: self.type,
+        name: self.name,
+        date: self.date,
+        address: self.address,
+        description: self.description,
+        duration: self.duration,
+        confirmed: false,
+        done: false
+      }).then(function(res){
+        if(res.status == 201) {
+          self.alertType = 'success' ;
+          self.message = "Your Booking has been registered successfully, you will receive a confirmation e-mail";
+        }
+        else {
+          self.alertType = 'danger' ;
+          self.message = "Failed to Book Photographer/Cameraman" ;
+        }
+      });
+    }
+  }
+}
+
 angular.module('app', [])
 .factory('authInterceptor', authInterceptor)
 .service('user', userService)
 .service('auth', authService)
-.service('staff', staffService)
 .service('equipment', equipmentService)
 /*.constant('API', 'http://localhost:5000')*/ //USE THIS LOCALLY
 .constant('API', 'https://studio-saber.herokuapp.com') //USE THIS FOR DEPLOYMENT
@@ -326,6 +399,7 @@ angular.module('app', [])
 .controller('Navbar', NavbarCtrl)
 .controller('Staff', StaffCtrl)
 .controller('Equipment', EquipmentCtrl)
-.controller('StaffForm', StaffFormCtrl)
+.controller('Client', ClientCtrl)
+.controller('Event', EventCtrl)
 .controller('EquipmentForm', EquipmentFormCtrl)
 })();
