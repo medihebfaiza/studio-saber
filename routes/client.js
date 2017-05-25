@@ -20,15 +20,15 @@ router.post("/register", function(req,res){
   Client.getClientByEmail(req.body.email,function(err,client){
     if (err) throw err ;
     if (client){
-      res.senStatus(409) ;
+      res.sendStatus(409) ;
     }
     else {
       Client.createClient(newClient,function(err){
         if (err){
-          res.senStatus(409) ;
+          res.sendStatus(409) ;
         }
         else {
-          res.senStatus(201) ;
+          res.sendStatus(201) ;
         }
       });
     }
@@ -97,7 +97,7 @@ router.patch("/:clientId",function(req,res){
   var data = req.params ;
   Client.updateClientPassword(data.clientId,req.body.newPassword,function(err){
     if (err){
-      res.senStatus(404) ;
+      res.sendStatus(404) ;
     }
     else {
       res.sendStatus(200) ;
@@ -105,14 +105,14 @@ router.patch("/:clientId",function(req,res){
   });
 });
 
-router.delete("/delete/:clientId",function(req,res){
+router.delete("/:clientId",function(req,res){
   var data = req.params ;
   Client.deleteClientById(data.clientId,function(err){
     if (err){
-      res.senStatus(404) ;
+      res.sendStatus(404) ;
     }
     else {
-      res.senStatus(200) ;
+      res.sendStatus(200) ;
     }
   });
 });
