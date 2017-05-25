@@ -5,8 +5,8 @@ var EventSchema = mongoose.Schema({
 		type: String,
 		index:true
 	},
-  staffIds: {
-		type: [String],
+  staffId: {
+		type: String,
 		index:true
 	},
   eventType: String,
@@ -58,7 +58,7 @@ module.exports.getClientEvents = function(clientId,callback){
 
 module.exports.getStaffEvents = function(staffId,callback){
   var query = {
-    staffIds:staffId
+    staffId:staffId
   }
   Event.find(query,callback) ;
 }

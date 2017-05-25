@@ -4,10 +4,18 @@
     <% include ../partials/head.ejs %>
   </head>
   <body ng-app="app">
-    <% include ../partials/admin/admin-side-bar.ejs %>
-    <div id="page-wrapper">
-      <% include ../partials/admin/staff-form.ejs %>
-      <% include ../partials/admin/equipment-form.ejs %>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 col-lg-2">
+          <% include ../partials/admin/admin-side-bar.ejs %>
+        </div>
+        <div class="col-sm-9 col-lg-10">
+          <% include ../partials/admin/client-list.ejs %>
+          <% include ../partials/admin/staff-list.ejs %>
+          <% include ../partials/admin/staff-form.ejs %>
+          <% include ../partials/admin/equipment-form.ejs %>
+        </div>
+      </div>
     </div>
   </body>
 </html>

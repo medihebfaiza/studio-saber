@@ -6,7 +6,7 @@ router.post("/create",function(req,res){
   var newEvent = new Event ({
     clientId: req.body.clientId,
     staffId: req.body.staffId,
-    eventType: req.bodyeventType,
+    eventType: req.body.eventType,
     name: req.body.name,
     date: req.body.date,
     address: req.body.address,

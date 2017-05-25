@@ -1,0 +1,34 @@
+<div class="panel panel-default" id="staff-list">
+  <div class="panel-heading">
+    <h4>Staff</h4>
+  </div>
+  <div class="panel-body" ng-controller="Staff as staff">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="aStaff in allStaff">
+        <div class="row text-center">
+          <div class="col-md-1">
+            <img ng-src="img/staff/{{aStaff.image}}" class="staff-image-min" />
+          </div>
+          <div class="col-md-1">
+            {{aStaff.firstName}}
+          </div>
+          <div class="col-md-2">
+            {{aStaff.lastName}}
+          </div>
+          <div class="col-md-2">
+            {{aStaff.telNumber}}
+          </div>
+          <div class="col-md-3">
+            {{aStaff.email}}
+          </div>
+          <div class="col-md-1">
+              <span ng-class="aStaff.available?'label label-success':'label label-warning'"> {{aStaff.available?"available":"unavailable"}}</span>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-danger" ng-click="staff.deleteStaff(aStaff)">Delete</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

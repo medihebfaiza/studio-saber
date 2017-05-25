@@ -114,6 +114,9 @@ function NavbarCtrl(user, auth) {
 
 function StaffCtrl(API,$http,$scope){
   var self = this ;
+
+  $scope.allStaff = [] ;
+
   $http.get(API+"/staff/all").then(function(res,allStaff){
     $scope.allStaff = res.data ;
   });
@@ -151,7 +154,7 @@ function StaffCtrl(API,$http,$scope){
       self.message = "Enter Password Please" ;
     }
     else {
-      $http.post(API + '/staff/create', {
+      var query = {
         firstName: self.firstName,
         lastName: self.lastName,
         gender: self.gender,
@@ -164,22 +167,19 @@ function StaffCtrl(API,$http,$scope){
         image: self.image,
         email: self.email,
         password: self.password
-      }).then(function(res){
+      };
+      $http.post(API + '/staff/create', query).then(function(res){
         if(res.status == 201) {
           self.alertType = 'success' ;
-          self.message = "Successfully created Staff"; // HIDE LOGIN AND REGISTER FORM AND RENDER LOGOUT BUTTON
-          /* should refresh staff list but doesn't work
-             maybe should delay the get request
-          */
-          $http.get(API+"/staff/all").then(function(res,allStaff){
-            $scope.allStaff = res.data ;
-          });
+          self.message = "Successfully created Staff";
         }
         else {
           self.alertType = 'danger' ;
           self.message = "Failed to create Staff"
         }
       });
+      /*couldn't update, solution make a refresh button*/
+      $scope.allStaff = $scope.allStaff.push(query) ;
     }
   }
 }
@@ -338,8 +338,10 @@ function EquipmentFormCtrl(equipment){
   }
 }
 
-function EventCtrl(API,$http){
+function EventCtrl(API,$http, $scope){
   var self = this ;
+
+  $scope.events = [] ;
 
   self.createEvent = function() {
     if (self.name == null){
@@ -360,7 +362,7 @@ function EventCtrl(API,$http){
     }
     else {
       $http.post(API + '/event/create', {
-        clientId: "5927174854a391468d246c33",
+        clientId: "592758af5e41385f027e3735",
         staffId: self.staffId,
         eventType: self.type,
         name: self.name,
@@ -381,6 +383,31 @@ function EventCtrl(API,$http){
         }
       });
     }
+  }
+
+  self.getClientEvents = function(clientId){
+    $http.get(API+"/event/client/"+clientId).then(function(res){
+      $scope.events[clientId] = res.data ;
+    });
+  }
+
+  self.deleteEvent = function(clientId,event){
+    $http.delete(API+"/event/"+event._id).then(function(res){
+      if (res.status == 200){
+        console.log("Successfully deleted event");//TEST
+      }
+    });
+    self.getClientEvents(clientId) ;
+  }
+
+  self.switchConfirmation = function(clientId,event){
+    var confirmation = event.confirmed?"unconfirm/":"confirm/" ;
+    $http.patch(API+"/event/"+confirmation+event._id).then(function(res){
+      if (res.status == 200){
+        console.log("Successfully updated event");//TEST
+        event.confirmed = !event.confirmed ;
+      }
+    });
   }
 }
 
