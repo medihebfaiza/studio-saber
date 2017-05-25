@@ -1,0 +1,35 @@
+<div class="container" id="equipment-form">
+  <div class="row">
+    <h4>Add a new Equipment</h4>
+  </div>
+  <form ng-controller="EquipmentForm as equipmentForm">
+    <div class="form-group">
+      <label>Name:</label>
+      <input ng-model="equipmentForm.name" type="text" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+      <label>Type:</label>
+      <div class="row">
+        <div class="col-xs-4"><label><input ng-model="equipmentForm.type" type="radio" name="type" value="Photo"> Photo</label></div>
+        <div class="col-xs-4"><label><input ng-model="equipmentForm.type" type="radio" name="type" value="Video"> Video</label></div>
+        <div class="col-xs-4"><label><input ng-model="equipmentForm.type" type="radio" name="type" value="Accessory"> Accessory</label></div>
+      </div>
+    </div>
+    <div class="input-group-addon">
+      <label for="comment">Description</label>
+      <textarea ng-model="equipmentForm.description" class="form-control" rows="2" id="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Image file:</label>
+      <input ng-model="equipmentForm.image" type="text" class="form-control" id="image">
+    </div>
+    <div class="form-group">
+      <label>Rental:</label>
+      <input ng-model="equipmentForm.rental" type="number" name="rental" id="rental" class="form-control" placeholder="Rental" value="">
+    </div>
+    <div uib-alert ng-show="equipmentForm.message" ng-class="'alert alert-' + (equipmentForm.alertType || 'warning')" close="closeAlert($index)" role="alert" aria-hidden="true">
+      {{equipmentForm.message}}
+    </div>
+    <button ng-click="equipmentForm.createEquipment()" class="btn btn-default">Create</button>
+  </form>
+</div>

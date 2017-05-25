@@ -156,6 +156,12 @@ a {
   padding-top: 50px
 }
 
+.staff-image {
+  border-radius:  50% ;
+  width: 150px ;
+  height: 150px ;
+}
+
 #findus {
   height: 400px;
   width: 100%;

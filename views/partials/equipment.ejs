@@ -1,0 +1,31 @@
+<div class="modal fade" id="equipment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2>Rent Equipment</h2>
+              <h3>Lorem ipsum dolor sit amet consectetur.</h3>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body row" ng-controller="Equipment as equipment">
+        <div class="col-md-4 text-center" ng-repeat="aEquipment in allEquipment">
+          <div class="thumbnail">
+            <img ng-src="img/equipment/{{aEquipment.image}}" class="equipment-image" />
+            <div class="caption">
+              <h4>{{aEquipment.name}}</h4>
+              <p>{{aEquipment.description}}</p>
+              <h5>{{aEquipment.rental}}</h5>
+              <span ng-class="aEquipment.available?'label label-success':'label label-warning'"> {{aEquipment.available?"available":"unavailable"}}</span>
+              <!--
+              <input ng-show="equipment.tryingToRent({{aEquipment._id}})" type="number" placeholder="Duration" />
+              <button ng-click="equipment.rentEquipment({{aEquipment._id}})" class="btn btn-default">Rent</button>
+              -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

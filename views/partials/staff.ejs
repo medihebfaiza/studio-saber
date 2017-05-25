@@ -1,0 +1,17 @@
+<section id="staff">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+          <h2>Staff</h2>
+          <h3>Lorem ipsum dolor sit amet consectetur.</h3>
+      </div>
+    </div>
+    <div class="row" ng-controller="Staff as staff">
+      <div class="col-md-4 text-center" ng-repeat="aStaff in allStaff">
+          <img ng-src="img/staff/{{aStaff.image}}" class="staff-image" />
+          <h4>{{aStaff.firstName}} {{aStaff.lastName}}</h4>
+          <p>{{aStaff.description}}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<div class="container" id="staff-form">
+  <div class="row">
+    <h4>Add a new Staff</h4>
+  </div>
+  <form ng-controller="StaffForm as staffForm">
+    <div class="form-group">
+      <label>First-name:</label>
+      <input ng-model="staffForm.firstName" type="text" class="form-control" id="firstName">
+    </div>
+    <div class="form-group">
+      <label>Last-name:</label>
+      <input ng-model="staffForm.lastName" type="text" class="form-control" id="lastName">
+    </div>
+    <div class="form-group">
+      <label>Gender:</label>
+      <div class="row">
+        <div class="col-xs-4"><label><input ng-model="staffForm.gender" type="radio" name="gender" value="Male"> Male</label></div>
+        <div class="col-xs-4"><label><input ng-model="staffForm.gender" type="radio" name="gender" value="Female"> Female</label></div>
+        <div class="col-xs-4"><label><input ng-model="staffForm.gender" type="radio" name="gender" value="Other"> Other</label></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Category:</label>
+      <div class="row">
+        <div class="col-xs-4"><label><input ng-model="staffForm.category" type="radio" name="category" value="Photographer"> Photographer</label></div>
+        <div class="col-xs-4"><label><input ng-model="staffForm.category" type="radio" name="category" value="Cameraman"> Cameraman</label></div>
+        <div class="col-xs-4"><label><input ng-model="staffForm.category" type="radio" name="category" value="Photographer and Cameraman"> Both</label></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Age:</label>
+      <input ng-model="staffForm.age" type="number" name="age" id="age" class="form-control" placeholder="Age" value="">
+    </div>
+    <div class="form-group">
+      <label>Telephone Number:</label>
+      <input ng-model="staffForm.telNumber" type="number" name="telNumber" id="telNumber" class="form-control" placeholder="Telephone Number" value="">
+    </div>
+    <div class="form-group">
+      <label>Wage:</label>
+      <input ng-model="staffForm.wage" type="number" name="wage" id="wage" class="form-control" placeholder="Wage" value="">
+    </div>
+    <div class="input-group-addon">
+      <label for="comment">Description</label>
+      <textarea ng-model="staffForm.description" class="form-control" rows="2" id="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Image file:</label>
+      <input ng-model="staffForm.image" type="text" class="form-control" id="image">
+    </div>
+    <div class="form-group">
+      <label for="email">Email address:</label>
+      <input ng-model="staffForm.email" type="email" class="form-control" id="email">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input ng-model="staffForm.password" type="password" class="form-control" id="pwd">
+    </div>
+    <div uib-alert ng-show="staffForm.message" ng-class="'alert alert-' + (staffForm.alertType || 'warning')" close="closeAlert($index)" role="alert" aria-hidden="true">
+      {{staffForm.message}}
+    </div>
+    <button ng-click="staffForm.createStaff()" class="btn btn-default">Create</button>
+  </form>
+</div>

@@ -41,6 +41,14 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+app.get('/staffform', function(request, response) {
+  response.render('partials/staff-form');
+});
+
+app.get('/admin', function(request, response) {
+  response.render('pages/admin');
+});
+
 // Routing
 var staff = require('./routes/staff');
 app.use('/staff', staff);
