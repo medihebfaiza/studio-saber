@@ -6,7 +6,6 @@ var cfg = require("../config.js");
 var auth = require("../auth.js")();
 
 router.post("/register", function(req,res){
-  /* Tout mettre dans le module */
   var newClient = new Client({
 			firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -16,7 +15,7 @@ router.post("/register", function(req,res){
 			password: req.body.password
 		});
 
-  /* Should Check if client already exists befo */
+  /* Check if client already exists before */
   Client.getClientByEmail(req.body.email,function(err,client){
     if (err) throw err ;
     if (client){
@@ -25,7 +24,7 @@ router.post("/register", function(req,res){
     else {
       Client.createClient(newClient,function(err){
         if (err){
-          res.sendStatus(409) ;
+          res.sendStatus(404) ;
         }
         else {
           res.sendStatus(201) ;
@@ -117,6 +116,11 @@ router.delete("/:clientId",function(req,res){
   });
 });
 
+
+/*
+  This route is only accessible to clients who have a jwt token
+  the token has to be passed in the req Athentication header with preceded "JWT" and a space
+*/
 router.get("/protected", auth.authenticate(), function(req, res) {
     res.json({
         message: "This message can only be seen by our lovely clients"
