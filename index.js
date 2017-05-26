@@ -6,6 +6,7 @@ var jwt = require("jwt-simple");
 var cfg = require("./config.js");
 var auth = require("./auth.js")();
 var mongoose = require('mongoose') ;
+var cors = require('cors') ;
 
 // Database Connection
 var dbUrl = 'mongodb://medihebfaiza:vBA3dBTgGBar4pyD@cluster0-shard-00-00-jkjon.mongodb.net:27017,cluster0-shard-00-01-jkjon.mongodb.net:27017,cluster0-shard-00-02-jkjon.mongodb.net:27017/studiosaber?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin' ;
@@ -32,6 +33,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Authentication Initialization
 app.use(auth.initialize());
+
+// Enable All CORS Requests
+app.use(cors())
 
 // View Engine
 app.set('views', __dirname + '/views');// views is directory for all template files
