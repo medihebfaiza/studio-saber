@@ -29,12 +29,14 @@ When Renting an Equipment the date and duration are saved and the Equipment is r
  
 ### Functionalities
 These are the Functionalities that the web application should have :
+
 **Normal visitors can :**
 - See information about the Studio and its services.
 - Find where the Studio is located. 
 - See a portfolio of the best photos made by the Studio.
 - See Staff members.
 - Create a Client account.
+
 **Clients can :**
 - Book a Photographer for a certain Event.
 - Rent Equipment
@@ -43,6 +45,7 @@ These are the Functionalities that the web application should have :
 - Staff Members can :
 - See bookings
 - Confirm availability
+
 **Administrator can :**
 - See, remove Clients 
 - Add, see, remove Staff Members
